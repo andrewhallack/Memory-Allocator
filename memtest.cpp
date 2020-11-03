@@ -12,15 +12,6 @@
  as part of the recursive invocations in the function 'ackerman', which
  is famous for being very highly recursive.
  */
-/*--------------------------------------------------------------------------*/
-/* DEFINES */
-/*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* INCLUDES */
-/*--------------------------------------------------------------------------*/
 
 #include<iostream>
 #include<string.h>
@@ -32,38 +23,13 @@
 
 #include "my_allocator.hpp"
 
-/*--------------------------------------------------------------------------*/
-/* NAME SPACES */ 
-/*--------------------------------------------------------------------------*/
 
 using namespace std;
-// I know, it's a bad habit, but this is a tiny program anyway...
-
-/*--------------------------------------------------------------------------*/
-/* CONSTANTS */
-/*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* GLOBAL DATA */
-/*--------------------------------------------------------------------------*/
 
 MyAllocator * ptr_global_allocator = nullptr;
-//This is a global pointer to the allocator defined in the main function.
-//We use this pointer in the overloaded 'new' and 'delete' operators.
+
 
 unsigned long num_allocations;
-// Global counter to keep track of the number of allocations exercised
-// during one test run.
-
-
-/*--------------------------------------------------------------------------*/
-/* HERE WE OVERLOAD THE NEW AND DELETE OPERATORS */
-/*--------------------------------------------------------------------------*/
-
-// When in the test program we call new, we use the following code to allocate
-// the memory.
 
 void* operator new(std::size_t sz) throw(std::bad_alloc) {
     std::cout << "global op new called, size = " << sz << endl;

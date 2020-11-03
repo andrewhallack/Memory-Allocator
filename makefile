@@ -1,9 +1,4 @@
-# makefile
-
-# uncomment the version of the compiler that you are using
-# clang++ is for Mac OS 
 # C++ = clang++
-# g++ is for most Linux
 C++ = g++
 
 all: memtest

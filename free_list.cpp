@@ -1,59 +1,23 @@
 /* 
-    File: free_list.cpp
-
-    Author: Andrew Hallack
-            Department of Computer Science
-            Texas A&M University
-    Date  : <date>
-
-    Modified: 
-
-    This file contains the implementation of the class FreeList.
-
-*/
-
-/*--------------------------------------------------------------------------*/
-/* DEFINES */
-/*--------------------------------------------------------------------------*/
-
-    /* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* INCLUDES */
-/*--------------------------------------------------------------------------*/
+ File: free_list.cpp
+ 
+ Author: Andrew Hallack
+ Department of Computer Science
+ Texas A&M University
+ Date  : 8/29/2020
+ 
+ Modified:
+ 
+ This file contains the implementation of the class FreeList.
+ 
+ */
 
 #include <iostream>
 #include <assert.h>
 #include "free_list.hpp"
 
-/*--------------------------------------------------------------------------*/
-/* NAME SPACES */ 
-/*--------------------------------------------------------------------------*/
 
 using namespace std;
-/* I know, it's a bad habit, but this is a tiny program anyway... */
-
-/*--------------------------------------------------------------------------*/
-/* DATA STRUCTURES */ 
-/*--------------------------------------------------------------------------*/
-
-    /* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* CONSTANTS */
-/*--------------------------------------------------------------------------*/
-
-    /* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* FORWARDS */
-/*--------------------------------------------------------------------------*/
-
-    /* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* FUNCTIONS FOR CLASS SegmentHeader */
-/*--------------------------------------------------------------------------*/
 
 SegmentHeader::SegmentHeader(size_t _length, bool _is_free) {
   length = _length;
@@ -61,32 +25,25 @@ SegmentHeader::SegmentHeader(size_t _length, bool _is_free) {
   cookie = COOKIE_VALUE;
   next = nullptr;
   prev = nullptr;
-  // You may need to initialize more members here!
 }
 
 SegmentHeader::~SegmentHeader() {
-  // You may need to add code here.
 }
 
+// verifies segmentheaders by using cookies.
+// if segment header were to be erroneously allocated, it would alert the user.
 void SegmentHeader::CheckValid() {
   if (cookie != COOKIE_VALUE) {
     cout << "INVALID SEGMENT HEADER!!" << endl;
     assert(false);
-    // You will need to check with the debugger to see how we got into this
-    // predicament.
   }
 }
 
 SegmentHeader* SegmentHeader::Split(size_t seg_length) {
-  // creates new segment addressed to where old segment is split
   SegmentHeader* segNew = new((void*)((char*)this + seg_length)) SegmentHeader(this->length - seg_length, true);
   this->length = seg_length; // sets old segment to shorter length
   return segNew;
 }
-
-/*--------------------------------------------------------------------------*/
-/* FUNCTIONS FOR CLASS FreeList */
-/*--------------------------------------------------------------------------*/
 
 FreeList::FreeList() {
   head = nullptr;

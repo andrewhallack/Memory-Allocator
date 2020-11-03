@@ -12,50 +12,14 @@
  
  */
 
-/*--------------------------------------------------------------------------*/
-/* DEFINES */
-/*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* INCLUDES */
-/*--------------------------------------------------------------------------*/
-
 #include <cstdlib>
 #include "my_allocator.hpp"
 #include <assert.h>
 #include <math.h>
 #include <iostream>
 
-/*--------------------------------------------------------------------------*/
-/* NAME SPACES */ 
-/*--------------------------------------------------------------------------*/
-
 using namespace std;
-/* I know, it's a bad habit, but this is a tiny program anyway... */
 
-/*--------------------------------------------------------------------------*/
-/* DATA STRUCTURES */ 
-/*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* CONSTANTS */
-/*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* FORWARDS */
-/*--------------------------------------------------------------------------*/
-
-/* -- (none) -- */
-
-/*--------------------------------------------------------------------------*/
-/* FUNCTIONS FOR CLASS MyAllocator */
-/*--------------------------------------------------------------------------*/
 
 MyAllocator::MyAllocator(size_t _basic_block_size, size_t _size) {
     cout << "Reserving memory of size = " << _size << endl;
@@ -65,9 +29,7 @@ MyAllocator::MyAllocator(size_t _basic_block_size, size_t _size) {
     remaining = _size; // sets remaining memory
 
     SegmentHeader* seg1 = new(start) SegmentHeader(_size, true); // places segment header at desired location
-    list.Add(seg1); // adds segment header to free list
-
-    // list.Print();    
+    list.Add(seg1); // adds segment header to free list    
 }
 
 MyAllocator::~MyAllocator() {
@@ -81,18 +43,12 @@ void* MyAllocator::Malloc(size_t _length) {
     double multiplier = double(_length + sizeof(SegmentHeader)) / block_size; // creates multiplier to 
                                                                               // find necessary amount of blocks
     size_t len = ceil(multiplier) * block_size; // finds amount of memory necessary to allocate
-    // cout << "Multiplier = " << multiplier << endl;
-    // cout << "Length = " <<  len << endl;
 
     // traverses through list to find long-enough segment
     SegmentHeader* seg = list.Head();
     while (seg != nullptr && seg->GetLength() < len) {
         seg = seg->Next();
     }
-    
-    /* cout << "************************************" << endl;
-    if (seg != nullptr) cout << "seg = " << seg << " Length = " << seg->GetLength() << endl;
-    else cout << "seg = nullptr" << endl; */
     
     // if no segments are long enough, we "ran out" of available memory
     if (seg == nullptr) {
